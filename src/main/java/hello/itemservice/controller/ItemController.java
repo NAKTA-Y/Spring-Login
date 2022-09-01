@@ -18,6 +18,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("/items")
 public class ItemController {
 
     private final ItemRepository itemRepository;
@@ -29,7 +30,7 @@ public class ItemController {
 
         model.addAttribute("items", items);
 
-        return "/list";
+        return "/items/list";
     }
 
     @GetMapping("/register")
@@ -37,7 +38,7 @@ public class ItemController {
 
         model.addAttribute("item", new Item());
 
-        return "/register";
+        return "/items/register";
     }
 
     @PostMapping("/register")
@@ -61,7 +62,7 @@ public class ItemController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("errors", bindingResult);
-            return "/register";
+            return "/items/register";
         }
 
         // Business Logic
@@ -72,7 +73,7 @@ public class ItemController {
         redirectAttributes.addAttribute("itemId", savedItem.getId());
 
 //        return "/read";
-        return "redirect:/read/{itemId}";
+        return "redirect:/items/read/{itemId}";
     }
 
     @GetMapping("/read/{itemId}")
@@ -82,7 +83,7 @@ public class ItemController {
 
         model.addAttribute("item", item);
 
-        return "/read";
+        return "/items/read";
     }
 
     @GetMapping("/modify/{itemId}")
@@ -92,7 +93,7 @@ public class ItemController {
 
         model.addAttribute("item", item);
 
-        return "/modify";
+        return "/items/modify";
     }
 
     @PostMapping("/modify")
@@ -110,7 +111,7 @@ public class ItemController {
         // Validation
         if (bindingResult.hasErrors()) {
             model.addAttribute("errors", bindingResult);
-            return "/modify";
+            return "/items/modify";
         }
 
         Item item = new Item(itemName, itemPrice, itemQuantity);
@@ -122,7 +123,7 @@ public class ItemController {
         redirectAttributes.addAttribute("itemId", updateItem.getId());
 
 //        return "/read";
-        return "redirect:/read/{itemId}";
+        return "redirect:/items/read/{itemId}";
     }
 
 
@@ -131,6 +132,6 @@ public class ItemController {
 
         itemRepository.delete(itemId);
 
-        return "redirect:/list";
+        return "redirect:/items/list";
     }
 }

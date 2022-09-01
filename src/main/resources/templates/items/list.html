@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col">
             <button class="btn btn-primary float-end"
-                    th:onclick="|location.href='@{/register}'|"
+                    th:onclick="|location.href='@{/items/register}'|"
                     type="button" th:text="#{page.register}"></button>
         </div>
     </div>
@@ -31,7 +31,7 @@
             <tbody>
             <tr th:each="item : ${items}">
                 <td th:text="${item.id}"></td>
-                <td><a th:href="@{/read/{itemId}(itemId=${item.id})}" th:text="${item.name}"></a></td>
+                <td><a th:href="@{/items/read/{itemId}(itemId=${item.id})}" th:text="${item.name}"></a></td>
                 <td th:text="${item.price}"></td>
                 <td th:text="${item.quantity}"></td>
             </tr>

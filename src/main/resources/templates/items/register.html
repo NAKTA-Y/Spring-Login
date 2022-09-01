@@ -23,7 +23,7 @@
         <h2 th:text="#{page.register}"></h2>
     </div>
     <h4 class="mb-3" th:text="#{page.inputItem}"></h4>
-    <form th:action="@{/register}" th:object="${item}" method="post">
+    <form th:action="@{/items/register}" th:object="${item}" method="post">
         <div>
             <label th:for="name" th:text="#{label.item.name}"></label>
             <input type="text" th:field="*{name}"
@@ -66,7 +66,7 @@
             </div>
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
-                        th:onclick="|location.href='@{/}'|"
+                        th:onclick="|location.href='@{/items/list}'|"
                         type="button" th:text="#{button.cancel}"></button>
             </div>
         </div>

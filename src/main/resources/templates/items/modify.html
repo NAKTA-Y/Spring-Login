@@ -22,7 +22,7 @@
     <div class="py-5 text-center">
         <h2 th:text="#{page.modify}"></h2>
     </div>
-    <form th:action="@{/modify}" th:object="${item}" method="post">
+    <form th:action="@{/items/modify}" th:object="${item}" method="post">
         <div>
             <label th:for="id" th:text="#{label.item.id}"></label>
             <input type="text" th:field="*{id}"
@@ -75,13 +75,13 @@
 
             <div class="col">
                 <button class="w-100 btn btn-danger btn-lg"
-                        th:onclick="|location.href='@{/delete/{itemId}(itemId=${item.id})}'|"
+                        th:onclick="|location.href='@{/items/delete/{itemId}(itemId=${item.id})}'|"
                         type="button" th:text="#{button.delete}"></button>
             </div>
 
             <div class="col">
                 <button class="w-100 btn btn-secondary btn-lg"
-                        th:onclick="|location.href='@{/read/{itemId}(itemId=${item.id})}'|"
+                        th:onclick="|location.href='@{/items/read/{itemId}(itemId=${item.id})}'|"
                         type="button" th:text="#{button.cancel}"></button>
             </div>
         </div>

@@ -44,12 +44,12 @@
         <div class="col">
             <button class="w-100 btn btn-primary btn-lg"
                     onclick="location.href='editForm.html'"
-                    th:onclick="|location.href='@{/modify/{itemId}(itemId=${item.id})}'|" type="button" th:text="#{button.modify}"></button>
+                    th:onclick="|location.href='@{/items/modify/{itemId}(itemId=${item.id})}'|" type="button" th:text="#{button.modify}"></button>
         </div>
 
         <div class="col">
             <button class="w-100 btn btn-secondary btn-lg"
-                    th:onclick="|location.href='@{/list}'|"
+                    th:onclick="|location.href='@{/items/list}'|"
                     type="button" th:text="#{button.list}"></button>
         </div>
     </div>
