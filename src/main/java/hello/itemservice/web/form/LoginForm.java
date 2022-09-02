@@ -3,18 +3,14 @@ package hello.itemservice.web.form;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 @Getter @Setter
-public class MemberSaveForm {
+public class LoginForm {
 
-    @NotBlank
+    @NotEmpty
     private String loginId;
 
     @NotEmpty
     private String password;
-
-    @NotEmpty
-    private String nickname;
 }

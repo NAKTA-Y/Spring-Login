@@ -13,13 +13,13 @@ public class Member {
 
     private String loginId;
 
-    private String nickname;
-
     private String password;
 
-    public Member(String loginId, String nickname, String password) {
+    private String nickname;
+
+    public Member(String loginId, String password, String nickname) {
         this.loginId = loginId;
-        this.nickname = nickname;
         this.password = password;
+        this.nickname = nickname;
     }
 }

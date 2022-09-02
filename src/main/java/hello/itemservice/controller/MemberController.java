@@ -22,7 +22,7 @@ public class MemberController {
     private final MemberRepository memberRepository;
 
     @GetMapping("/add")
-    public String memberAddForm(@ModelAttribute("member")Member member) {
+    public String memberAddForm(@ModelAttribute("member") Member member) {
         return "/members/add";
     }
 
