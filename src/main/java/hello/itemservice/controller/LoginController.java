@@ -3,6 +3,7 @@ package hello.itemservice.controller;
 import hello.itemservice.domain.member.Member;
 import hello.itemservice.service.LoginService;
 import hello.itemservice.web.form.LoginForm;
+import hello.itemservice.web.session.SessionManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
@@ -21,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginController {
 
     private final LoginService loginService;
+    private final SessionManager sessionManager;
 
     @GetMapping("/login")
     public String loginForm(@ModelAttribute("loginForm") LoginForm loginForm) {
@@ -42,26 +45,17 @@ public class LoginController {
             return "/login/loginForm";
         }
 
-        // 로그인 성공 TODO
-
-        Cookie loginIdCookie = new Cookie("memberId", String.valueOf(member.getId()));
-        response.addCookie(loginIdCookie);
+        // 로그인 성공 처리
+        sessionManager.createSession(member, response);
 
         return "redirect:/";
     }
 
     @PostMapping("/logout")
-    public String logout(HttpServletResponse response) {
+    public String logout(HttpServletRequest request) {
 
-        expireCookie(response, "memberId");
+        sessionManager.expire(request);
 
         return "redirect:/";
-    }
-
-    private void expireCookie(HttpServletResponse response, String cookieName) {
-        Cookie cookie = new Cookie(cookieName, null);
-        cookie.setMaxAge(0);
-
-        response.addCookie(cookie);
     }
 }
