@@ -2,6 +2,7 @@ package hello.itemservice.controller;
 
 import hello.itemservice.domain.member.Member;
 import hello.itemservice.service.LoginService;
+import hello.itemservice.web.SessionConst;
 import hello.itemservice.web.form.LoginForm;
 import hello.itemservice.web.session.SessionManager;
 import lombok.RequiredArgsConstructor;
@@ -12,10 +13,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequiredArgsConstructor
@@ -32,29 +33,42 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(@Validated @ModelAttribute("loginForm") LoginForm loginForm, BindingResult bindingResult, HttpServletResponse response) {
+    public String login(
+            @Validated @ModelAttribute("loginForm") LoginForm loginForm,
+            BindingResult bindingResult,
+            @RequestParam(value = "redirectURI", defaultValue = "/") String redirectURI,
+            HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
             return "/login/loginForm";
         }
 
-        Member member = loginService.login(loginForm.getLoginId(), loginForm.getPassword());
+        Member loginMember = loginService.login(loginForm.getLoginId(), loginForm.getPassword());
 
-        if (member == null) {
+        if (loginMember == null) {
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
             return "/login/loginForm";
         }
 
         // 로그인 성공 처리
-        sessionManager.createSession(member, response);
+        HttpSession session = request.getSession();
+        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
 
-        return "redirect:/";
+//        sessionManager.createSession(member, response);
+
+        log.info("redirectURL = {}", redirectURI);
+
+        return "redirect:" + redirectURI;
     }
 
     @PostMapping("/logout")
     public String logout(HttpServletRequest request) {
 
-        sessionManager.expire(request);
+        HttpSession session = request.getSession(false);
+
+        if (session != null) {
+            session.invalidate();
+        }
 
         return "redirect:/";
     }
