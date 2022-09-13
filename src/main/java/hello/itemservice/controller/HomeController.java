@@ -3,6 +3,7 @@ package hello.itemservice.controller;
 import hello.itemservice.domain.member.Member;
 import hello.itemservice.repository.MemberRepository;
 import hello.itemservice.web.SessionConst;
+import hello.itemservice.web.argumentresolver.Login;
 import hello.itemservice.web.session.SessionManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,7 @@ public class HomeController {
     private final SessionManager sessionManager;
 
     @GetMapping("/")
-    public String homeLogin(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member member, Model model) {
+    public String homeLogin(@Login Member member, Model model) {
 
         if (member == null) {
             return "/home";
